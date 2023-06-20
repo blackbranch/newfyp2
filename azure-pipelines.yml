@@ -29,8 +29,8 @@ stages:
     phpVersion: '7.3'
   jobs:
   - job: BuildJob
-    pool: 
-      vmImage: $(vmImageName)
+    pool: exakat
+      #vmImage: $(vmImageName)
     steps:
     - script: |
         sudo update-alternatives --set php /usr/bin/php$(phpVersion)
@@ -65,8 +65,8 @@ stages:
   condition: succeeded()
   jobs:
   - deployment: DeploymentJob
-    pool:
-      vmImage: $(vmImageName)
+    pool: exakat
+      #vmImage: $(vmImageName)
     environment: $(environmentName)
     strategy:
       runOnce:
