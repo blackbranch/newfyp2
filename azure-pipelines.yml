@@ -11,13 +11,13 @@ variables:
   azureSubscription: '92a5ddda-d9ec-4c27-801a-f3874d99f4fa'
 
   # Web app name
-  webAppName: ''
+  webAppName: 'phptestapp'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
   # Environment name
-  environmentName: ''
+  environmentName: 'phptestapp'
 
   # Root folder under which your composer.json file is available.
   rootFolder: $(System.DefaultWorkingDirectory)
