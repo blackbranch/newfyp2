@@ -53,7 +53,7 @@ stages:
        chmod -R 777 ./
        docker run -it --rm exakat/exakat:latest doctor
        docker run -it --rm  exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git --format Text
-       docker run -it --rm -v /absolute/path/to/desktop/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
+       docker run -it --rm -v /home/kali/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
        true      
         #docker run -it --rm  -v `pwd`/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git 
        
