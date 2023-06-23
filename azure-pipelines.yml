@@ -42,7 +42,7 @@ stages:
         docker run -it --rm exakat/exakat:latest
         docker run -it --rm exakat/exakat:latest doctor
         docker run -it --rm  exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git --format Text
-        docker run -it --rm  -v ./projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
+        docker run -it --rm  -v ./home/kali/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
         cd /home/kali/projects/zordius/diplomat/
         pwd
         open index.html
