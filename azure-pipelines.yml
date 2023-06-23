@@ -32,6 +32,11 @@ stages:
     pool: exakat
       #vmImage: $(vmImageName)
     steps:
+    Unit Tests:
+        stage: tests
+        only:
+          - branches
+        allow_failure: true
     - script: |
         sudo update-alternatives --set php /usr/bin/php$(phpVersion)
         sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
@@ -42,9 +47,12 @@ stages:
       workingDirectory: $(rootFolder)
       displayName: 'Use PHP version $(phpVersion)'
 
+      
+
     - script: composer install --no-interaction --prefer-dist
       workingDirectory: $(rootFolder)
       displayName: 'Composer install'
+      
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
