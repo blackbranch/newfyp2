@@ -52,8 +52,7 @@ stages:
     - bash: |
        chmod -R 777 ./
        cd /home/kali
-       mkdir sem
-       cd sem
+       gnome-terminal -- bash -c "docker run -it --rm -v $(pwd)/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git"
         #gnome-terminal -- bash -c "docker run -it --rm -v $(pwd)/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git"
        open /home/kali/report.txt
         #sleep 80
