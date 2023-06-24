@@ -54,9 +54,8 @@ stages:
        cd /home/kali
        gnome-terminal -- bash -c "docker run -it --rm -v $(pwd)/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git"
        open /home/kali/report.txt
-       ping 127.0.0.1 -c 1 -W 120 >/dev/null
         #sleep 80
-       open /home/kali/projects/zordius/diplomat/index.html
+        #open /home/kali/projects/zordius/diplomat/index.html
         #docker run -it --rm -v `pwd`/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
        true      
         #displayName: 'exakat Scan & Report'
