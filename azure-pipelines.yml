@@ -53,11 +53,6 @@ stages:
        chmod -R 777 ./
        cd /home/kali
        open /home/kali/report.txt
-       mkdir sem
-       cd /sem
-       gnome-terminal --working-directory=$HOME/sem
-        docker run -it --rm exakat/exakat:latest doctor
-        docker run -it --rm  -v `pwd`/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git 
         #docker run -it --rm  exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git --format Text
         #docker run -it --rm -v /home/kali/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
         #docker run -it --rm  -v /home/kali:/usr/src/exakat/projects/ exakat/exakat:latest project -p aunty -R https://github.com/blackbranch/newfyp2.git
