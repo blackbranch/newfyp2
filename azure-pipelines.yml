@@ -70,6 +70,7 @@ stages:
         #sleep 80 
         #open /home/kali/projects/zordius/diplomat/index.html
         #true
+        
     #- script: composer install --no-interaction --prefer-dist
       #workingDirectory: $(rootFolder)
       #displayName: 'Composer installed'
