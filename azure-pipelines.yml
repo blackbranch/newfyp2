@@ -58,11 +58,11 @@ stages:
         #gnome-terminal -- docker run -it --rm -v /home/kali/:/usr/src/exakat/projects/ exakat/exakat:latest project -p aunty -R
         #gnome-terminal -- bash -c "gnome-terminal -- docker run -it --rm -v $(pwd)/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git"
         gnome-terminal -- bash -c "docker run -it --rm -v $(pwd)/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git"
-       open /home/kali/report.txt
+        open /home/kali/report.txt
         #sleep 80
         #open /home/kali/projects/zordius/diplomat/index.html
         #docker run -it --rm -v `pwd`/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
-       true      
+        true      
         #displayName: 'exakat Scan & Report'
 
         #docker run -it --rm  -v `pwd`/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git 
