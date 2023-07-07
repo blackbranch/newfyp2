@@ -1,0 +1,139 @@
+.layout    {
+    border: 1px solid grey;
+    border-radius: 7px;
+    height: 39px;
+    text-align: left;
+}
+
+.blocking{
+    display: block;
+}
+
+.formheader{
+    text-align: center;
+}
+
+.userpass100{
+    width: 100%
+}
+
+.checkmark{
+    height:25px;	
+    width:25px;
+}
+
+.usernameMark{
+    text-align: right;
+    padding-right: 20px;
+    padding-top: 10px;
+}
+
+.hotelListHeader{
+    padding-top: 20px;
+}
+
+.padName{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.cardmargin{
+    margin-top: 50px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 20px;
+}
+
+.infoheader{
+    background-color: #000000;
+    padding-top: 12px;
+    color: white;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+}
+
+.infoCard{
+    border-style: solid groove;
+    border-width: 1px;
+    border-color: #000000;
+    margin-bottom: 50px;
+    border-bottom-right-radius:20px;
+    border-bottom-left-radius:20px;
+    box-shadow: 0px 10px 15px 1px black;
+
+}
+
+.colour{
+    background-color: #f9f9f9;
+}
+
+.formInputHeaders{
+    text-align: left;    
+}
+
+.formInputMargin{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.editReply{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+body{
+    background-image: url(pictures/bg.jpg);
+    background-size: 120%;
+}
+
+.picBottom{
+    border-bottom-right-radius: 19px;
+    border-bottom-left-radius: 19px;
+}
+
+.picTop{
+    border-top-left-radius: 19px;
+    border-top-right-radius: 19px;
+
+}
+
+.infoSpecific{
+    margin-top: 50px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.imageSize{
+    width: 305px;
+}
+
+.allMargin{
+    margin-bottom: 50px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.borderHotels{
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 20px;
+}
+
+.reviewTableMargin{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.shadowHotel{
+    box-shadow: 0px 10px 15px 1px black;
+}
+
+.cardSize{
+    width: 400px;
+    transition: width 1s;
+}
+.cardSize:hover{
+    width: 425px;
+}
