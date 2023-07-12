@@ -66,10 +66,10 @@ stages:
         #displayName: 'exakat Scan & Report'
 
         #docker run -it --rm  -v `pwd`/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git 
-    -  bash: |
-        sleep 80 
-        open /home/kali/projects/zordius/diplomat/index.html
-        true
+    #-  bash: |
+        #sleep 80 
+        #open /home/kali/projects/zordius/diplomat/index.html
+        #true
         
     #- script: composer install --no-interaction --prefer-dist
       #workingDirectory: $(rootFolder)
