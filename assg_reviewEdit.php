@@ -62,6 +62,18 @@ if (!empty($rowUserReview)) {
 }
 ?>
 
+<?php
+
+// Direct injection
+echo Hello.$_GET['user']., welcome.;
+
+// less direct injection
+foo($_GET['user']);
+function foo($user) {
+    echo Hello.$user., welcome.;
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
