@@ -1,19 +1,11 @@
-
 <?php
 session_start();
-
-// Error handling for MySQL connection
-$link = mysqli_connect('localhost', $user, $pass);
-if (!$link) {
-    die('Error connecting to the database: ' . mysqli_connect_error());
-}
 
 if (!isset($_SESSION['userId'])) {
     include "assg_NavBar.php";
     include "assg_doBackToLogin.php";
     exit();
 }
-
 include "assg_dbFunctions.php";
 
 if (isset($_SESSION['username'])) {
@@ -24,12 +16,13 @@ $hotelID = $_GET['id'];
 $reviewId = $_GET['reviewId'];
 $userId = $_GET['userId'];
 
-// Error handling for the database queries
-$queryHotel = "SELECT * FROM hotels WHERE hotelId=$hotelID";
-$resultHotel = mysqli_query($link, $queryHotel);
-if (!$resultHotel) {
-    die('Error executing the query: ' . mysqli_error($link));
-}
+// Prepare and bind the parameters for the first query
+$queryHotel = "SELECT * FROM hotels WHERE hotelId=?";
+$stmtHotel = mysqli_prepare($link, $queryHotel);
+mysqli_stmt_bind_param($stmtHotel, "i", $hotelID);
+mysqli_stmt_execute($stmtHotel);
+$resultHotel = mysqli_stmt_get_result($stmtHotel);
+
 $row = mysqli_fetch_array($resultHotel);
 if (!empty($row)) {
     $picture = $row['picture'];
@@ -39,11 +32,13 @@ if (!empty($row)) {
     $description = $row['description'];
 }
 
-$queryReviewSpecific = "SELECT * FROM reviews WHERE reviewId=$reviewId";
-$resultReviewSpecific = mysqli_query($link, $queryReviewSpecific);
-if (!$resultReviewSpecific) {
-    die('Error executing the query: ' . mysqli_error($link));
-}
+// Prepare and bind the parameters for the second query
+$queryReviewSpecific = "SELECT * FROM reviews WHERE reviewId=?";
+$stmtReviewSpecific = mysqli_prepare($link, $queryReviewSpecific);
+mysqli_stmt_bind_param($stmtReviewSpecific, "i", $reviewId);
+mysqli_stmt_execute($stmtReviewSpecific);
+$resultReviewSpecific = mysqli_stmt_get_result($stmtReviewSpecific);
+
 $rowReviewSpecific = mysqli_fetch_array($resultReviewSpecific);
 if (!empty($rowReviewSpecific)) {
     $rating = $rowReviewSpecific['rating'];
@@ -51,30 +46,22 @@ if (!empty($rowReviewSpecific)) {
     $review = $rowReviewSpecific['review'];
 }
 
-$queryUserReview = "SELECT * FROM users WHERE userId=$userId";
-$resultUserReview = mysqli_query($link, $queryUserReview);
-if (!$resultUserReview) {
-    die('Error executing the query: ' . mysqli_error($link));
-}
+// Prepare and bind the parameters for the third query
+$queryUserReview = "SELECT * FROM users WHERE userId=?";
+$stmtUserReview = mysqli_prepare($link, $queryUserReview);
+mysqli_stmt_bind_param($stmtUserReview, "i", $userId);
+mysqli_stmt_execute($stmtUserReview);
+$resultUserReview = mysqli_stmt_get_result($stmtUserReview);
+
 $rowUserReview = mysqli_fetch_array($resultUserReview);
 if (!empty($rowUserReview)) {
     $username = $rowUserReview['username'];
 }
 ?>
-
-<?php
-
-// Direct injection
-echo Hello.$_GET['user']., welcome.;
-
-// less direct injection
-foo($_GET['user']);
-function foo($user) {
-    echo Hello.$user., welcome.;
-}
-?>
-
 <!DOCTYPE html>
+<!--
+The rest of the HTML remains unchanged.
+-->
 <html>
 <head>
     <meta charset="UTF-8">
@@ -137,4 +124,3 @@ function foo($user) {
     </div>
 </body>
 </html>
-
