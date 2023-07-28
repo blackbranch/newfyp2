@@ -3,6 +3,7 @@ session_start();
 
 // php file that contains the common database connection code
 include "dbFunctions.php";
+var_dump($_POST);
 
 $entered_username = $_POST['username'];
 $entered_password = $_POST['password'];
