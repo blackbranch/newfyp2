@@ -2,7 +2,7 @@
 session_start();
 
 include "assg_dbFunctions.php";
-var_dunp($_POST);
+var_dump($_POST);
 
 $entered_username = $_POST['username'];
 $entered_password = $_POST['password'];
