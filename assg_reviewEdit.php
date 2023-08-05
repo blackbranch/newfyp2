@@ -1,18 +1,6 @@
 <?php
 session_start();
 
-// Replace your database credentials here
-$host = 'localhost';
-$db_user = 'your_db_user';
-$db_pass = 'your_db_password';
-$db_name = 'your_db_name';
-
-// Establish a connection to the database
-$link = mysqli_connect($host, $db_user, $db_pass, $db_name);
-if (!$link) {
-    die('Error connecting to the database: ' . mysqli_connect_error());
-}
-
 if (!isset($_SESSION['userId'])) {
     include "assg_NavBar.php";
     include "assg_doBackToLogin.php";
@@ -28,8 +16,13 @@ $hotelID = $_GET['id'];
 $reviewId = $_GET['reviewId'];
 $userId = $_GET['userId'];
 
-$queryHotel = "SELECT * FROM hotels WHERE hotelId=$hotelID";
-$resultHotel = mysqli_query($link, $queryHotel) or die(mysqli_error($link));
+// Prepare and bind the parameters for the first query
+$queryHotel = "SELECT * FROM hotels WHERE hotelId=?";
+$stmtHotel = mysqli_prepare($link, $queryHotel);
+mysqli_stmt_bind_param($stmtHotel, "i", $hotelID);
+mysqli_stmt_execute($stmtHotel);
+$resultHotel = mysqli_stmt_get_result($stmtHotel);
+
 $row = mysqli_fetch_array($resultHotel);
 if (!empty($row)) {
     $picture = $row['picture'];
@@ -39,8 +32,13 @@ if (!empty($row)) {
     $description = $row['description'];
 }
 
-$queryReviewSpecific = "SELECT * FROM reviews WHERE reviewId=$reviewId";
-$resultReviewSpecific = mysqli_query($link, $queryReviewSpecific) or die(mysqli_error($link));
+// Prepare and bind the parameters for the second query
+$queryReviewSpecific = "SELECT * FROM reviews WHERE reviewId=?";
+$stmtReviewSpecific = mysqli_prepare($link, $queryReviewSpecific);
+mysqli_stmt_bind_param($stmtReviewSpecific, "i", $reviewId);
+mysqli_stmt_execute($stmtReviewSpecific);
+$resultReviewSpecific = mysqli_stmt_get_result($stmtReviewSpecific);
+
 $rowReviewSpecific = mysqli_fetch_array($resultReviewSpecific);
 if (!empty($rowReviewSpecific)) {
     $rating = $rowReviewSpecific['rating'];
@@ -48,8 +46,13 @@ if (!empty($rowReviewSpecific)) {
     $review = $rowReviewSpecific['review'];
 }
 
-$queryUserReview = "SELECT * FROM users WHERE userId=$userId";
-$resultUserReview = mysqli_query($link, $queryUserReview) or die(mysqli_error($link));
+// Prepare and bind the parameters for the third query
+$queryUserReview = "SELECT * FROM users WHERE userId=?";
+$stmtUserReview = mysqli_prepare($link, $queryUserReview);
+mysqli_stmt_bind_param($stmtUserReview, "i", $userId);
+mysqli_stmt_execute($stmtUserReview);
+$resultUserReview = mysqli_stmt_get_result($stmtUserReview);
+
 $rowUserReview = mysqli_fetch_array($resultUserReview);
 if (!empty($rowUserReview)) {
     $username = $rowUserReview['username'];
@@ -57,9 +60,7 @@ if (!empty($rowUserReview)) {
 ?>
 <!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+The rest of the HTML remains unchanged.
 -->
 <html>
 <head>
@@ -73,53 +74,53 @@ and open the template in the editor.
     <title></title>
 </head>
 <body>
-<?php include "assg_Navbar.php" ?>
-<div class="usernameMark">
-    <?php echo $msg ?>
-</div>
-<div class="d-flex justify-content-center">
-    <div class="colour infoCard cardmargin" style="width:450px">
-        <div class="formheader">
-            <div class="infoheader" style="padding-top:10px">
-                <h1>Edit review</h1>
-                <hr>
+    <?php include "assg_Navbar.php" ?>
+    <div class="usernameMark">
+        <?php echo $msg ?>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="colour infoCard cardmargin" style="width:450px">
+            <div class="formheader">
+                <div class="infoheader" style="padding-top:10px">
+                    <h1>Edit review</h1>
+                    <hr>
+                </div>
+                <br>
+                <div>
+                    <form action="assg_doReviewEdit.php?reviewId=<?php echo $reviewId ?>&userId=<?php echo $userId ?>&hotelId=<?php echo $hotelID ?>" method="post">
+                        <div class="formInputMargin">
+                            <label class="d-flex justify-self-left" for="username">Username:</label>
+                            <input class="userpass100 blocking layout" value="<?php echo $username ?>" disabled type="text" name="username" placeholder="Enter username" required size="30" maxlength="100" autofocus id="username"/>
+                        </div>
+                        <br>
+                        <div class="formInputMargin">
+                            <label class="d-flex justify-self-left" for="comments">Comments:</label>
+                            <textarea class="userpass100" name="comments" rows="5"><?php echo $review ?></textarea>
+                        </div>
+                        <br>
+                        <div class="formInputMargin">
+                            <label class="d-flex justify-self-left" for="ratings">Ratings:</label>
+                            <?php if (isset($rating)) { ?>
+                                <select class="userpass100 blocking layout" name="rating" required placeholder="Select rating">
+                                    <option value="" disabled selected hidden><?php echo $rating ?></option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            <?php } ?>
+                        </div>
+                        <br>
+                        <div>
+                            <a href="assg_hotelReview.php?id=<?php echo $hotelID ?>"><button class="btn btn-dark" type="button">Cancel</button></a>
+                            <button class="btn btn-success" type="submit">Edit</button>
+                        </div>
+                    </form>
+                </div>
+                <br>
             </div>
-            <br>
-            <div>
-                <form action="assg_doReviewEdit.php?reviewId=<?php echo $reviewId ?>&userId=<?php echo $userId ?>&hotelId=<?php echo $hotelID ?>" method="post">
-                    <div class="formInputMargin">
-                        <label class="d-flex justify-self-left" for="username">Username:</label>
-                        <input class="userpass100 blocking layout" value="<?php echo $username ?>" disabled type="text" name="username" placeholder="Enter username" required size="30" maxlength="100" autofocus id="username"/>
-                    </div>
-                    <br>
-                    <div class="formInputMargin">
-                        <label class="d-flex justify-self-left" for="comments">Comments:</label>
-                        <textarea class="userpass100" name="comments" rows="5"><?php echo $review ?></textarea>
-                    </div>
-                    <br>
-                    <div class="formInputMargin">
-                        <label class="d-flex justify-self-left" for="ratings">Ratings:</label>
-                        <?php if (isset($rating)) { ?>
-                            <select class="userpass100 blocking layout" name="rating" required placeholder="Select rating">
-                                <option value="" disabled selected hidden><?php echo $rating ?></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        <?php } ?>
-                    </div>
-                    <br>
-                    <div>
-                        <a href="assg_hotelReview.php?id=<?php echo $hotelID ?>"><button class="btn btn-dark" type="button">Cancel</button></a>
-                        <button class="btn btn-success" type="submit">Edit</button>
-                    </div>
-                </form>
-            </div>
-            <br>
         </div>
     </div>
-</div>
 </body>
 </html>
