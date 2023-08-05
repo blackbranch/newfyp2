@@ -6,6 +6,7 @@
 trigger:
 - main
 # EXAKAT PIPELINE
+
 variables:
   # Azure Resource Manager connection created during pipeline creation
   azureSubscription: '92a5ddda-d9ec-4c27-801a-f3874d99f4fa'
