@@ -2,7 +2,7 @@
 session_start();
 
 include "assg_dbFunctions.php";
-var_dump($_POST);
+
 
 
 
