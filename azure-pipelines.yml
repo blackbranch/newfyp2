@@ -1,0 +1,110 @@
+# PHP as Linux Web App on Azure
+# Build, package and deploy your PHP project to Azure Linux Web App.
+# Add steps that run tests and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/php
+
+trigger:
+- main
+# EXAKAT PIPELINE
+
+variables:
+  # Azure Resource Manager connection created during pipeline creation
+  azureSubscription: '92a5ddda-d9ec-4c27-801a-f3874d99f4fa'
+
+  # Web app name
+  webAppName: 'phptestapp'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+  # Environment name
+  environmentName: 'phptestapp'
+
+  # Root folder under which your composer.json file is available.
+  rootFolder: $(System.DefaultWorkingDirectory)
+
+stages:
+- stage: Build
+  displayName: Build stage
+  variables:
+    phpVersion: '7.3'
+  jobs:
+  - job: BuildJob
+    pool: exakat
+      #vmImage: $(vmImageName)
+    steps:
+    - script: |
+        sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+        sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+        sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+        sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+        sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+        php -version
+      #docker run -it --rm exakat/exakat:latest
+      #docker run -it --rm exakat/exakat:latest doctor
+      #docker run -it --rm  exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git --format Text
+      #docker run -it --rm  -v `pwd`/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
+        #cd /home/kali/projects/zordius/diplomat/
+        #pwd
+        #open index.html
+      workingDirectory: $(rootFolder)
+      displayName: 'Use PHP version $(phpVersion)'
+      
+    - bash: |
+       chmod -R 777 ./
+       cd /home/kali
+        #docker run -it --rm -v $(pwd)/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
+        #gnome-terminal -- bash -c "cd /home/kali && docker run -it --rm -v /home/kali/:/usr/src/exakat/projects/ exakat/exakat:latest project -p aunty -R"
+        #gnome-terminal -- bash -c 'cd /home/kali && docker run -it --rm -v /home/kali/:/usr/src/exakat/projects/ exakat/exakat:latest project -p aunty -R'
+        #gnome-terminal -- docker run -it --rm -v /home/kali/:/usr/src/exakat/projects/ exakat/exakat:latest project -p aunty -R
+        #gnome-terminal -- bash -c "gnome-terminal -- docker run -it --rm -v $(pwd)/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git"
+        gnome-terminal -- bash -c "docker run -it --rm -v $(pwd)/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git"
+        open /home/kali/report.txt
+        #sleep 80
+        #open /home/kali/projects/zordius/diplomat/index.html
+        #docker run -it --rm -v `pwd`/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git
+        true      
+        #displayName: 'exakat Scan & Report'
+
+        #docker run -it --rm  -v `pwd`/projects:/usr/src/exakat/projects/ exakat/exakat:latest project -p zordius -R https://github.com/blackbranch/newfyp2.git 
+    -  bash: |
+        sleep 80 
+        open /home/kali/projects/zordius/diplomat/index.html
+        true
+        
+    #- script: composer install --no-interaction --prefer-dist
+      #workingDirectory: $(rootFolder)
+      #displayName: 'Composer installed'
+      
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: '$(rootFolder)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
+
+    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      displayName: 'Upload package'
+      artifact: drop
+
+#- stage: Deploy
+  #displayName: 'Deploy Web App'
+  #dependsOn: Build
+  #condition: succeeded()
+  #jobs:
+  #- deployment: DeploymentJob
+    #pool: exakat
+      #vmImage: $(vmImageName)
+    #environment: $(environmentName)
+    #strategy:
+      #runOnce:
+        #deploy:
+          #steps:
+          #- task: AzureWebApp@1
+            #displayName: 'Deploy Azure Web App : '
+            #inputs:
+              #azureSubscription: $(azureSubscription)
+              #appName: $(webAppName)
+              #package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
