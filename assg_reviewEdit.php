@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 if (!isset($_SESSION['userId'])) {
     include "assg_NavBar.php";
     include "assg_doBackToLogin.php";
